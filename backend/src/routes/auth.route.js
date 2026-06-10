@@ -1,9 +1,11 @@
 import express from "express"; //1
 import { signup , login , logout, updateProfile} from "../controllers/auth.controller.js";
 import { protectRoute } from "../middleware/auth.middleware.js";
-
+import { arcjetprtotection } from "../middleware/arcjet.middleware.js";
 
 const router=express.Router();//2
+
+router.use(arcjetprtotection); // used as middleware called before calling other routes
 
 router.post("/signup",signup);//3
 
