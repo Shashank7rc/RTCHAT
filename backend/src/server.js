@@ -1,22 +1,29 @@
-//const express = require("express");
+//const express = require("express");  "type": "module", -> import
 import express from "express";
 import dotenv from "dotenv";
 import authroutes from "./routes/auth.route.js";
-import path from "path";
-import { connectDB } from "./lib/db.js";
+import message from "./routes/message.route.js";
+import path from "path";                                           //hosting & getting the location of dist files etc 
+import { connectDB } from "./lib/db.js";                           //database
 import cookieParser from "cookie-parser";
+//cors required if separate deployment of back and front
 
-dotenv.config();
+
+dotenv.config(); 
 
 const app= express();
 const __dirname=path.resolve();
 
 const PORT =process.env.PORT || 3000;
 
-app.use(express.json());//req body
+app.use(express.json());//req body [parser for json data without this we cannot use singup form data,middleware]
 app.use(cookieParser());
 
 app.use("/api/auth",authroutes);
+
+app.get("/",(req,res)=>{
+    res.send("Welcome");
+})
 //app.use("/api/messages",messageRoutes);
 
 if(process.env.NODE_ENV ==="production"){

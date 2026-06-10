@@ -6,7 +6,7 @@ import { sendWelcomeEmail } from "../emails/emailHandler.js";
 import cloudinary from "../lib/cloudinary.js";
 
 export const signup = async (req,res)=>{
-    const {fullName,email,password}=req.body
+    const {fullName,email,password}=req.body  //object destructuring [Take these properties from req.body and create variables]
 
     try {
         if(!fullName || !email || !password){

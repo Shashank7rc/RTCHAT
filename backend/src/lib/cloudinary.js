@@ -8,3 +8,15 @@ cloudinary.config({
 });
 
 export default cloudinary;
+
+/*
+User uploads image
+        ↓
+Backend receives file
+        ↓
+Upload to Cloudinary
+        ↓
+Cloudinary returns image URL
+        ↓
+Store URL in MongoDB
+*/
