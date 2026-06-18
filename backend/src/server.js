@@ -2,7 +2,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import authroutes from "./routes/auth.route.js";
-import message from "./routes/message.route.js";
+import messageRoutes from "./routes/message.route.js";
 import path from "path";                                           //hosting & getting the location of dist files etc 
 import { connectDB } from "./lib/db.js";                           //database
 import cookieParser from "cookie-parser";
@@ -20,11 +20,11 @@ app.use(express.json());//req body [parser for json data without this we cannot 
 app.use(cookieParser());
 
 app.use("/api/auth",authroutes);
+app.use("/api/messages",messageRoutes);
 
 app.get("/",(req,res)=>{
     res.send("Welcome");
 })
-//app.use("/api/messages",messageRoutes);
 
 if(process.env.NODE_ENV ==="production"){
     app.use(express.static(path.join(__dirname,"../frontend/dist")))
