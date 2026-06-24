@@ -6,6 +6,7 @@ import messageRoutes from "./routes/message.route.js";
 import path from "path";                                           //hosting & getting the location of dist files etc 
 import { connectDB } from "./lib/db.js";                           //database
 import cookieParser from "cookie-parser";
+import cors from "cors"
 //cors required if separate deployment of back and front
 
 
@@ -17,9 +18,10 @@ const __dirname=path.resolve();
 const PORT =process.env.PORT || 3000;
 
 app.use(express.json());//req body [parser for json data without this we cannot use singup form data,middleware]
+app.use(cors({origin: process.env.ClientURL,credentials: true}));
 app.use(cookieParser());
 
-app.use("/api/auth",authroutes);
+app.use("/api/auth",authroutes);       
 app.use("/api/messages",messageRoutes);
 
 app.get("/",(req,res)=>{
