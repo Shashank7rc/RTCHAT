@@ -15,8 +15,16 @@ function App() {
       checkAuth()
     },[checkAuth])
 
+      useEffect(() => {
+    if ("Notification" in window && Notification.permission === "default") {
+      Notification.requestPermission();
+    }
+  }, []);
+  
     if (isCheckingAuth) return <PageLoader />;
-    
+
+   
+
   return (
     <div className="min-h-screen bg-slate-900 relative flex items-center justify-center p-4 overflow-hidden">
       {/* DECORATORS - GRID BG & GLOW SHAPES */}
