@@ -6,7 +6,7 @@ import { isSpoofedBot } from "@arcjet/inspect";
 export const arcjetprtotection = async (req,res,next)=>{
     try {
          const decision = await aj.protect(req);
-  console.log("Arcjet decision", decision);
+  //console.log("Arcjet decision", decision);
 
   if (decision.isDenied()) {
     if (decision.reason.isRateLimit()) {
