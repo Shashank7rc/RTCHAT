@@ -8,16 +8,16 @@ import { connectDB } from "./lib/db.js";                           //database
 import cookieParser from "cookie-parser";
 import cors from "cors"
 //cors required if separate deployment of back and front
-
+import { app, server } from "./lib/socket.js";
 
 dotenv.config(); 
 
-const app= express();
+
 const __dirname=path.resolve();
 
 const PORT =process.env.PORT || 3000;
 
-app.use(express.json());//req body [parser for json data without this we cannot use singup form data,middleware]
+app.use(express.json({limit : "5mb"}));//req body [parser for json data without this we cannot use singup form data,middleware]
 app.use(cors({origin: process.env.ClientURL,credentials: true}));
 app.use(cookieParser());
 
@@ -34,7 +34,7 @@ if(process.env.NODE_ENV ==="production"){
 
 }
 
-app.listen(PORT,()=>{
+server.listen(PORT,()=>{
     
     console.log("Server running on port 3000")
     connectDB();

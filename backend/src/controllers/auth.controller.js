@@ -49,7 +49,7 @@ export const signup = async (req,res)=>{
             });
 
         try {
-            await sendWelcomeEmail(savedUser.email,savedUser.fullName,process.env.CLIENT_URL);
+            await sendWelcomeEmail(savedUser.email,savedUser.fullName,process.env.ClientURL);
         } catch (error) {
             console.log("failed to send welcome email",error);
         }
