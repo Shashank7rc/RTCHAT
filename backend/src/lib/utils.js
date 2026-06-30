@@ -11,11 +11,11 @@ export const generateToken=(userId,res)=>{
         expiresIn:"7d",
     }); 
 
-    res.cookie("jwt",token,{
-        maxAge:7 * 24 * 60 * 60 * 1000,
-        httpOnly:true, //prevent xss attacks
-        sameSite :"strict",//csrf attacks
-        secure:process.env.NODE_ENV==="development"? false : true ,
-    });
+   res.cookie("jwt", token, {
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+  httpOnly: true,
+  sameSite: "None",
+  secure: true,
+});
     return token;
 };
