@@ -21,6 +21,7 @@ function App() {
     }
   }, []);
   
+    
     if (isCheckingAuth) return <PageLoader />;
 
    
