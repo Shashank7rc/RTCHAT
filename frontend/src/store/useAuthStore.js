@@ -83,13 +83,36 @@ export const useAuthStore = create((set,get)=>({ ///? get?
     const { authUser } = get();
     if (!authUser || get().socket?.connected) return;
 
+    // Extract JWT from cookies as fallback for browsers that block third-party cookies
+    const getTokenFromCookie = () => {
+      const cookieString = document.cookie;
+      const jwtCookie = cookieString
+        .split("; ")
+        .find((row) => row.startsWith("jwt="));
+      return jwtCookie ? jwtCookie.split("=")[1] : null;
+    };
+
+    const token = getTokenFromCookie();
+
     const socket = io(SOCKET_URL, {
       withCredentials: true, // this ensures cookies are sent with the connection
+      auth: {
+        token: token, // fallback: send token explicitly if cookie transmission fails
+      },
     });
 
     socket.connect();
 
     set({ socket });
+    
+    // Log connection status for debugging
+    socket.on("connect", () => {
+      console.log("Socket connected successfully");
+    });
+    
+    socket.on("connect_error", (error) => {
+      console.error("Socket connection error:", error.message);
+    });
 
     // listen for online users event
     socket.on("getOnlineUsers", (userIds) => {

@@ -4,14 +4,22 @@ import { ENV } from "../lib/env.js";
 
 export const socketAuthMiddleware = async (socket, next) => {
   try {
-    // extract token from http-only cookies
-    const token = socket.handshake.headers.cookie
+    // Try to extract token from http-only cookies first (primary method)
+    let token = socket.handshake.headers.cookie
       ?.split("; ")
       .find((row) => row.startsWith("jwt="))
       ?.split("=")[1];
 
+    // If not in cookies, check socket.io auth object (fallback - handles browser cookie blocking)
+    if (!token && socket.handshake.auth?.token) {
+      token = socket.handshake.auth.token;
+      console.log("Socket authenticated via auth header (cookie blocking detected)");
+    } else if (token) {
+      console.log("Socket authenticated via httpOnly cookie");
+    }
+
     if (!token) {
-      console.log("Socket connection rejected: No token provided");
+      console.log("Socket connection rejected: No token provided via cookie or auth header");
       return next(new Error("Unauthorized - No Token Provided"));
     }
 
